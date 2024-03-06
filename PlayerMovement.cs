@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] Transform playerCamera;
@@ -55,11 +56,11 @@ public class PlayerMovement : MonoBehaviour
         cameraCap = Mathf.Clamp(cameraCap, -90.0f, 90.0f);
  
         playerCamera.localEulerAngles = Vector3.right * cameraCap;
- 
+
         transform.Rotate(Vector3.up * currentMouseDelta.x * mouseSensitivity);
     }
  
-    void UpdateMove()
+    public void UpdateMove()
     {
         isGrounded = Physics.CheckSphere(groundCheck.position, 0.2f, ground);
  
