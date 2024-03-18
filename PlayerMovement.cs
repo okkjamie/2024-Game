@@ -32,11 +32,7 @@ public class PlayerMovement : MonoBehaviour
     {
         controller = GetComponent<CharacterController>();
  
-        if (cursorLock)
-        {
             Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = true;
-        }
     }
  
     void Update()
