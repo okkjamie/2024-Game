@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class TimeManager : MonoBehaviour
 {
@@ -10,47 +11,29 @@ public class TimeManager : MonoBehaviour
     public TMP_Text clockText;
     public string clockTextVar;
 
-    //sets time to 0 
+    public int currentAnomoly;
+    public int enteredAnomoly;
+
+    public int currentPlace;
+    public int enteredPlace;
+    
+    bool placeFound = false;
+    bool anomolyFound = false;
+    
     void Start()
     {
+        NewAnomoly();
         currentTime = 0;
+        isAnanomlyFound = false;
     }
 
-    public void Update()
-    {
-        if(Input.GetKeyDown(KeyCode.K))
-        {
-             AnomolyCheck();
-        }
-    }
-
-    //checks if anomoly is found, if found update time, if not reset to 0 
     public void AnomolyCheck()
     {
-        if(isAnanomlyFound)
-        {
-            currentTime += 1;
-            if(currentTime > 9)
-            {
-                clockTextVar = currentTime + ":00";
-            }
-            else
-            {
-                 clockTextVar = "0" + currentTime + ":00";
-            }
-        }
-        else
-        {
-            currentTime = 0;
-            if(currentTime > 9)
-            {
-                clockTextVar = currentTime + ":00";
-            }
-            else
-            {
-                 clockTextVar = "0" + currentTime + ":00";
-            }
-        }
+        if(currentAnomoly == enteredAnomoly){anomolyFound = true;}
+        if(currentPlace == enteredPlace){placeFound = true;}
+        
+        if(placeFound && anomolyFound){isAnanomlyFound = true;}
+        else{isAnanomlyFound = false;}
 
         UpdateClock();
     }
@@ -58,7 +41,39 @@ public class TimeManager : MonoBehaviour
     //updates clock text to current time
     void UpdateClock()
     {
+        if(isAnanomlyFound == true)
+        {
+            currentTime += 1;
+            if(currentTime == 8)
+            {
+                SceneManager.LoadScene(2); // plays win sequence    
+            }
+
+            clockTextVar = "0" + currentTime + ":00";
+        }
+        else
+        {
+            currentTime = 0;
+            clockTextVar = "0" + currentTime + ":00";
+            
+        }
+
+       
         clockText.text =  clockTextVar;
+        NewAnomoly();
+        
     }
+
+    void NewAnomoly()
+    {
+        isAnanomlyFound = false;
+        currentAnomoly = Random.Range(1,8);
+        currentPlace = Random.Range(1,4);
+        anomolyFound = false;
+        placeFound = false;
+    }
+
+    
+
 
 }
