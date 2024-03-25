@@ -12,8 +12,7 @@ public class PlayerActions : MonoBehaviour
         Debug.Log("USED!");
         DoorRaycast();
         BedRaycast();
-        NoteRaycast();
-        SwitchRaycast();
+        ComputerRaycast();
     }
 
     public void DoorRaycast()
@@ -45,31 +44,13 @@ public class PlayerActions : MonoBehaviour
         }
     }
 
-    public void NoteRaycast()
-    {
-        if (Physics.Raycast(Camera.position, Camera.forward, out RaycastHit hit, MaxUseDistance, UseLayers[2]))
-        {
-            if (hit.collider.TryGetComponent<Note>(out Note note))
-            {
-                note.Pickup();
-            }
-        }
-    }
-
-    public void SwitchRaycast()
+    public void ComputerRaycast()
     {
         if (Physics.Raycast(Camera.position, Camera.forward, out RaycastHit hit, MaxUseDistance, UseLayers[3]))
         {
-            if(hit.collider.TryGetComponent<LightSwitch>(out LightSwitch lightswitch))
+            if(hit.collider.TryGetComponent<Computer>(out Computer computer))
             {
-                if (lightswitch.isOn)
-                {
-                    lightswitch.Off();
-                }
-                else
-                {
-                    lightswitch.On();
-                }
+                computer.Interact();
             }
         }
     }

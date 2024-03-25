@@ -9,6 +9,9 @@ public class Door : MonoBehaviour
     public float targetAngleClosed = 0f; 
     public float rotationSpeed = 90f; 
 
+    public AudioSource[] openClose;
+    public AudioClip[] clip;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -30,6 +33,12 @@ public class Door : MonoBehaviour
     IEnumerator RotateOpen()
     {
         float currentAngle = 0f;
+        
+        openClose[0].clip = clip[0];
+        openClose[0].volume = Random.Range(0.5f, 0.6f);
+        openClose[0].pitch = Random.Range(0.8f, 1.2f);
+        openClose[0].Play();
+
         while (currentAngle < targetAngleOpen)
         {
             float rotationAmount = rotationSpeed * Time.deltaTime;
@@ -37,6 +46,7 @@ public class Door : MonoBehaviour
             transform.Rotate(Vector3.up, rotationAmount);
             yield return null;
         }
+        
     }
 
 
@@ -56,6 +66,10 @@ public class Door : MonoBehaviour
             transform.Rotate(Vector3.up, -rotationAmount); 
             yield return null;
         }
+        openClose[1].clip = clip[1];
+        openClose[1].volume = Random.Range(0.5f, 0.6f);
+        openClose[1].pitch = Random.Range(0.8f, 1.2f);
+        openClose[1].Play();
     }
 }
 

@@ -18,6 +18,7 @@ public class PlayerMovement : MonoBehaviour
     public float jumpHeight = 6f;
     float velocityY;
     bool isGrounded;
+    bool footstepPlayed;
  
     float cameraCap;
     Vector2 currentMouseDelta;
@@ -27,12 +28,15 @@ public class PlayerMovement : MonoBehaviour
     Vector2 currentDir;
     Vector2 currentDirVelocity;
     Vector3 velocity;
+
+    public AudioSource footstepSource;
+    public AudioClip clip;
  
     void Start()
     {
         controller = GetComponent<CharacterController>();
- 
-            Cursor.lockState = CursorLockMode.Locked;
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
  
     void Update()
@@ -44,15 +48,12 @@ public class PlayerMovement : MonoBehaviour
     void UpdateMouse()
     {
         Vector2 targetMouseDelta = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
- 
         currentMouseDelta = Vector2.SmoothDamp(currentMouseDelta, targetMouseDelta, ref currentMouseDeltaVelocity, mouseSmoothTime);
  
         cameraCap -= currentMouseDelta.y * mouseSensitivity;
- 
         cameraCap = Mathf.Clamp(cameraCap, -90.0f, 90.0f);
  
         playerCamera.localEulerAngles = Vector3.right * cameraCap;
-
         transform.Rotate(Vector3.up * currentMouseDelta.x * mouseSensitivity);
     }
  
@@ -62,11 +63,12 @@ public class PlayerMovement : MonoBehaviour
  
         Vector2 targetDir = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
         targetDir.Normalize();
- 
+
+        Footsteps();
+
         currentDir = Vector2.SmoothDamp(currentDir, targetDir, ref currentDirVelocity, moveSmoothTime);
  
         velocityY += gravity * 2f * Time.deltaTime;
- 
         Vector3 velocity = (transform.forward * currentDir.y + transform.right * currentDir.x) * Speed + Vector3.up * velocityY;
  
         controller.Move(velocity * Time.deltaTime);
@@ -75,5 +77,36 @@ public class PlayerMovement : MonoBehaviour
         {
             velocityY = -8f;
         }
+    }
+
+    void Footsteps()
+    {
+        if(Input.GetAxisRaw("Horizontal") != 0)
+        {
+            StartCoroutine(FootstepSounds());
+        }
+        else if( Input.GetAxisRaw("Vertical") != 0)
+        {
+            StartCoroutine(FootstepSounds());
+        }
+        else
+        {
+            StopCoroutine(FootstepSounds());
+        }
+    }
+
+    IEnumerator FootstepSounds()
+    {
+        if(!footstepPlayed)
+        {
+            footstepPlayed = true;
+            footstepSource.clip = clip;
+            footstepSource.volume = Random.Range(0.025f, 0.05f);
+            footstepSource.pitch = Random.Range(0.8f, 1.2f);
+            footstepSource.Play();
+            yield return new WaitForSeconds(0.9f);
+            footstepPlayed = false;
+        }
+  
     }
 }
