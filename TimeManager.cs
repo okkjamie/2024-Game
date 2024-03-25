@@ -58,10 +58,8 @@ public class TimeManager : MonoBehaviour
             
         }
 
-       
         clockText.text =  clockTextVar;
-        NewAnomoly();
-        
+        NewAnomoly();  
     }
 
     void NewAnomoly()
@@ -72,8 +70,4 @@ public class TimeManager : MonoBehaviour
         anomolyFound = false;
         placeFound = false;
     }
-
-    
-
-
 }
