@@ -5,53 +5,73 @@ using TMPro;
 using UnityEngine.UI;
 
 public class CurrentlySelected : MonoBehaviour
-{
+{   
+    [Header("Debug")]
+    // These are debug to know what you've selected 
     public string currentlySelectedPlace = null;
-    public string currentlySelectedAnomoly = null;
+    public string currentlySelectedAnomaly = null;
 
-    public GameObject whereAnomolyGUI;
-    public GameObject pickAnomolyGUI;
+    [Header("GUI")]
+    // The GUI where you chose where the anomaly is
+    public GameObject whereAnomalyGUI;
+    // The GUI where you chose the type of anomaly
+    public GameObject pickAnomalyGUI;
+    
+    [Header("Models")]
+    // The laptop model
     public GameObject laptop;
-    public GameObject Alarm;
+    // The alarm clock model
+    public GameObject alarm;
+    // The computer model
     public GameObject comp;
-    
-    int enteredPlace;
-    int enteredAnomoly;
 
-    public void Start()
-    {
-        
-    }
-    
- 
-    public void OnClicked(Button button)
+    // ID numbers for entered place and anomaly
+    int enteredPlace;
+    int enteredAnomaly;
+
+    // When selecting the anomalys location, store info
+    public void OnClickedPlace(Button button)
     {
         currentlySelectedPlace = button.name;
         int.TryParse(currentlySelectedPlace, out enteredPlace);
     }
 
-    public void OnClicked2(Button button)
+    // When selecting the anomaly type, store info
+    public void OnClickedAnomaly(Button button)
     {
-        currentlySelectedAnomoly = button.name;
-        int.TryParse(currentlySelectedAnomoly, out enteredAnomoly);
+        currentlySelectedAnomaly = button.name;
+        int.TryParse(currentlySelectedAnomaly, out enteredAnomaly);
     }
 
-
+    // When opening next GUI, pass info through to manager
     public void EnteredNext()
     {
-       TimeManager time = Alarm.GetComponent(typeof(TimeManager)) as TimeManager;
-        time.enteredAnomoly = enteredAnomoly;
-        whereAnomolyGUI.SetActive(true);
-        pickAnomolyGUI.SetActive(false);
+        // Gets the time manager
+        TimeManager time = alarm.GetComponent(typeof(TimeManager)) as TimeManager; 
+        // Passes info to manager
+        time.enteredAnomaly = enteredAnomaly;
+
+        // Close current GUI, opens next GUI
+        whereAnomalyGUI.SetActive(true);
+        pickAnomalyGUI.SetActive(false);
     }
 
+    // When closing GUI, pass info through to manager
     public void Close()
     {
-        TimeManager time = Alarm.GetComponent(typeof(TimeManager)) as TimeManager;
+        // Gets the time manager
+        TimeManager time = alarm.GetComponent(typeof(TimeManager)) as TimeManager;
+        // Passes info to manager
         time.enteredPlace = enteredPlace;
-        whereAnomolyGUI.SetActive(false);
-        pickAnomolyGUI.SetActive(true);
+
+        // Close current GUI, opens first GUI for when the computer is next used
+        whereAnomalyGUI.SetActive(false);
+        pickAnomalyGUI.SetActive(true);
+
+        // Changes computer screen
         laptop.SetActive(false);
+
+        // Gets the time Computer Script
         Computer computer = comp.GetComponent(typeof(Computer)) as Computer;
         computer.Close();
     }
