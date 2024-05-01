@@ -11,24 +11,27 @@ public class TimeManager : MonoBehaviour
     public TMP_Text clockText;
     public string clockTextVar;
 
-    public int currentAnomoly;
-    public int enteredAnomoly;
+    public float currentAnomoly;
+    public float enteredAnomoly;
 
-    public int currentPlace;
-    public int enteredPlace;
+    public float currentPlace;
+    public float enteredPlace;
     
     bool placeFound = false;
     bool anomolyFound = false;
+    bool isAnomaly;
+
+    public GameObject manager;
     
     void Start()
     {
-        NewAnomoly();
+        NewAnomaly();
         currentTime = 0;
         isAnanomlyFound = false;
     }
 
     public void AnomolyCheck()
-    {
+    {   
         if(currentAnomoly == enteredAnomoly){anomolyFound = true;}
         if(currentPlace == enteredPlace){placeFound = true;}
         
@@ -59,15 +62,23 @@ public class TimeManager : MonoBehaviour
         }
 
         clockText.text =  clockTextVar;
-        NewAnomoly();  
+        NewAnomaly();  
     }
 
-    void NewAnomoly()
+    void NewAnomaly()
     {
         isAnanomlyFound = false;
-        currentAnomoly = Random.Range(1,8);
-        currentPlace = Random.Range(1,4);
         anomolyFound = false;
         placeFound = false;
+
+        enteredAnomoly = 0;
+        enteredPlace = 0;
+
+        AnomalyManager anomaly = manager.GetComponent(typeof(AnomalyManager)) as AnomalyManager;
+        anomaly.NewAnomaly();
+        isAnomaly = anomaly.isAnomaly;
+        currentAnomoly = anomaly.currentAnomaly;
+        currentPlace = anomaly.currentLocation;
+
     }
 }
