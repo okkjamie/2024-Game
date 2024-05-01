@@ -5,22 +5,35 @@ using UnityEngine;
 public class RainScript : MonoBehaviour
 {
     [Header("Rain Sources")]
-    public AudioSource thunderSource; // The source of the thunder (for 3D Reverb)
-    public AudioClip clip; // The thunder sound effect
+    // The source of the thunder (for 3D Reverb)
+    public AudioSource thunderSource; 
+    // The thunder sound effect
+    public AudioClip clip; 
 
     void Start()
     {
-        StartCoroutine(FootstepSounds()); // Starts the repeating sound 
+        // Starts the repeating sound s
+        StartCoroutine(FootstepSounds()); 
     }
 
     IEnumerator FootstepSounds()
     {
-        thunderSource.clip = clip; // Specifys Clip
-        thunderSource.volume = Random.Range(0.65f, 0.85f); // Randomize volume
-        thunderSource.pitch = Random.Range(0.8f, 1.2f); // Randomize pitch (how deep or high it sounds)
-        thunderSource.Play(); // Plays the audio source
+        // Specifys Clip
+        thunderSource.clip = clip; 
+        
+        // Randomize volume
+        thunderSource.volume = Random.Range(0.65f, 0.85f); 
+        
+        // Randomize pitch (how deep or high it sounds)
+        thunderSource.pitch = Random.Range(0.8f, 1.2f); 
+        
+        // Plays the audio source
+        thunderSource.Play(); 
 
-        yield return new WaitForSeconds(Random.Range(20, 45)); // Waits a random time then plays
-        StartCoroutine(FootstepSounds()); // Repeats the thunder sound effect
+        // Waits a random time then plays
+        yield return new WaitForSeconds(Random.Range(20, 45)); 
+
+        // Repeats the thunder sound effect
+        StartCoroutine(FootstepSounds()); 
     }
 }
