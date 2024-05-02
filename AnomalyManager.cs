@@ -11,30 +11,25 @@ public class AnomalyManager : MonoBehaviour
     public bool isAnomaly;
 
     int pastObject;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
     public void NewAnomaly()
     {
-        SelfDestruct(); //clears last anomaly
+        // Clears last anomaly
+        SelfDestruct();
 
+        // Specfiys values from array
         int currentIndex;
         int arrayLength = anomalies.Length;
 
+        // Randomly choses new anomaly from array
         currentIndex = Random.Range(0, arrayLength);
         pastObject = currentIndex;
         anomalies[currentIndex].SetActive(true);
 
+        // Gets script from new anomaly
         Anomaly anomaly = anomalies[currentIndex].GetComponent(typeof(Anomaly)) as Anomaly;
+
+        // Sets current stats as new anomaly stats
         currentLocation = anomaly.locationID;
         currentAnomaly = anomaly.anomalyId;
         isAnomaly = anomaly.noAnomaly;
@@ -42,6 +37,7 @@ public class AnomalyManager : MonoBehaviour
 
     public void SelfDestruct()
     {
+        // Deletes last anomaly
         anomalies[pastObject].SetActive(false);
     }
 }
