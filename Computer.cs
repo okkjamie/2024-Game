@@ -4,34 +4,41 @@ using UnityEngine;
 
 public class Computer : MonoBehaviour
 {
+    [Header("Computer Objects")]
+    // GUI elements
     public GameObject screen;
-    bool open = false;
 
+    [Header("Player Scripts")]
     public PlayerActions playerActions;
     public PlayerMovement playerMovement;
     public HeadbobSystem headbob;
 
+    [Header("Audio")]
+    // Source of the audio
     public AudioSource laptopSource;
+    // Audio Clip
     public AudioClip clip;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
+    // States
+    bool open = false;
+
     void Update()
     {
-         if(Input.GetKeyDown(KeyCode.Escape))
+        // If Esc pressed and computer is open, run close computer method
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if(open) {Close();}
+            // Checks if open
+            if (open)
+            {
+                Close();
+            }
         }
     }
 
+    // If interacted with computer and computer is closed, run open computer method
     public void Interact()
-    {
-        Debug.Log("Interating"); 
-        if(!open)
+    {   // Checks if closed
+        if (!open)
         {
             Open();
         }
@@ -39,26 +46,46 @@ public class Computer : MonoBehaviour
 
     void Open()
     {
+        // Specifys computer is open
         open = true;
+
+        // Opens computer GUI
         screen.SetActive(true);
-        playerMovement.enabled = !playerMovement.enabled;
-        playerActions.enabled = !playerActions.enabled;
-        headbob.enabled = !headbob.enabled;
+
+        // Locks scripts
+        ScriptAdjust();
+
+        // Specifys computer audio
         laptopSource.clip = clip;
+        // Plays computer audio
         laptopSource.Play();
+
+        // Unlocks and reveals cursor
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
     }
 
     public void Close()
     {
+        // Specifys computer is closed
         open = false;
+
+        // Closes computer GUI
         screen.SetActive(false);
-        playerMovement.enabled = !playerMovement.enabled;
-        playerActions.enabled = !playerActions.enabled;
-        headbob.enabled = !headbob.enabled;
+
+        // Unlocks scripts
+        ScriptAdjust();
+
+        // Locks and hides cursor
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
+
+    // Emables or Disables movement and input scripts based on interaction with computer
+    public void ScriptAdjust()
+    {
+        playerMovement.enabled = !playerMovement.enabled;
+        playerActions.enabled = !playerActions.enabled;
+        headbob.enabled = !headbob.enabled;
+    }
 }
-            

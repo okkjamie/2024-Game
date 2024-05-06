@@ -4,41 +4,40 @@ using UnityEngine;
 
 public class Door : MonoBehaviour
 {
-    public bool isOpen;
-    public float targetAngleOpen = 105f; 
-    public float targetAngleClosed = 0f; 
-    public float rotationSpeed = 90f; 
+    [Header("Door Settings")]
+    // Target angle of door when opened
+    public float targetAngleOpen = 105f;
+    // Target angle of door when closed
+    public float targetAngleClosed = 0f;
+    // How fast the door rotates
+    public float rotationSpeed = 90f;
 
+    [Header("Sound Sources")]
+    // Source of audio
     public AudioSource[] openClose;
+    // Audio clips
     public AudioClip[] clip;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    // States 
+    bool isOpen = false;
 
     public void Open()
     {
+        // Specifys door is open for interaction
         isOpen = true;
+        // Opens door 
         StartCoroutine(RotateOpen());
     }
-    
+
     IEnumerator RotateOpen()
     {
+        // Gets current angle
         float currentAngle = 0f;
-        
-        openClose[0].clip = clip[0];
-        openClose[0].volume = Random.Range(0.5f, 0.6f);
-        openClose[0].pitch = Random.Range(0.8f, 1.2f);
-        openClose[0].Play();
 
+        // Plays open audio
+        DoorAudio(0);
+
+        // While door is not equal to target angle, continue to open overtime 
         while (currentAngle < targetAngleOpen)
         {
             float rotationAmount = rotationSpeed * Time.deltaTime;
@@ -46,30 +45,47 @@ public class Door : MonoBehaviour
             transform.Rotate(Vector3.up, rotationAmount);
             yield return null;
         }
-        
     }
-
 
     public void Close()
     {
+        // Specifys door is open for interaction
         isOpen = false;
+        // Closes door 
         StartCoroutine(RotateClose());
     }
 
     IEnumerator RotateClose()
-    {
-       float currentAngle = 0f;
-        while (currentAngle > -targetAngleOpen) 
+    {   
+        // Gets current angle
+        float currentAngle = 0f;
+
+        // While door is not equal to target angle, continue to close overtime 
+        while (currentAngle > -targetAngleOpen)
         {
             float rotationAmount = rotationSpeed * Time.deltaTime;
-            currentAngle -= rotationAmount; 
-            transform.Rotate(Vector3.up, -rotationAmount); 
+            currentAngle -= rotationAmount;
+            transform.Rotate(Vector3.up, -rotationAmount);
             yield return null;
         }
-        openClose[1].clip = clip[1];
-        openClose[1].volume = Random.Range(0.5f, 0.6f);
-        openClose[1].pitch = Random.Range(0.8f, 1.2f);
-        openClose[1].Play();
+
+        // Plays closing audio
+         DoorAudio(1);
+        
+        
+    }
+
+    public void DoorAudio(int currentClip)
+    {   
+        // Specifys clip based on audio clip is called 
+        openClose[currentClip].clip = clip[currentClip];
+
+        // Randomizes Audio
+        openClose[currentClip].volume = Random.Range(0.5f, 0.6f);
+        openClose[currentClip].pitch = Random.Range(0.8f, 1.2f);
+
+        // Plays sound
+        openClose[currentClip].Play();
     }
 }
 
