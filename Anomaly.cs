@@ -8,5 +8,5 @@ public class Anomaly : MonoBehaviour
     public float anomalyId;
     public bool noAnomaly;
 
-    
+    // need to create scriptable object then remake all my objects lmao i love life 
 }

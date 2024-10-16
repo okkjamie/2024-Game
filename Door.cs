@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Door : MonoBehaviour
+public class Door : MonoBehaviour, IInteractable
 {
     [Header("Door Settings")]
     // Target angle of door when opened
@@ -19,7 +19,19 @@ public class Door : MonoBehaviour
     public AudioClip[] clip;
 
     // States 
-    bool isOpen = false;
+    public bool isOpen = false;
+
+    public void Interact()
+    {
+        if(isOpen == true)
+        {
+            Close();
+        }
+        else
+        {
+            Open();
+        }
+    }
 
     public void Open()
     {

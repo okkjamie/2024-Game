@@ -12,7 +12,7 @@ public class RainScript : MonoBehaviour
 
     void Start()
     {
-        // Starts the repeating sound s
+        // Starts the repeating sounds
         StartCoroutine(FootstepSounds()); 
     }
 

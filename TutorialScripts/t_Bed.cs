@@ -2,14 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Bed : MonoBehaviour, IInteractable
+public class t_Bed : MonoBehaviour
 {
     [Header("Objects")]
     public GameObject Alarm;
     public GameObject cutscene;
 
     [Header("Scripts")]
-    public PlayerActions playerActions;
+    public t_PlayerActions t_playerActions;
     public PlayerMovement playerMovement;
     public HeadbobSystem headbob;
 
@@ -17,11 +17,15 @@ public class Bed : MonoBehaviour, IInteractable
     public AudioSource alarmSource;
     public AudioClip clip;
 
+    [Header("Tutorial")]
+    public GameObject[] t1_messages;
+    public GameObject[] t2_messages;
+
     // States
     bool canSleep = true;
-
+    
     // Starts the sleep cutscene
-    public void Interact()
+    public void Sleep()
     {
         StartCoroutine(SleepCutscene());
     }
@@ -30,7 +34,7 @@ public class Bed : MonoBehaviour, IInteractable
     public void ScriptAdjust()
     {
         playerMovement.enabled = !playerMovement.enabled;
-        playerActions.enabled = !playerActions.enabled;
+        t_playerActions.enabled = !t_playerActions.enabled;
         headbob.enabled = !headbob.enabled;
     }
 
@@ -64,11 +68,18 @@ public class Bed : MonoBehaviour, IInteractable
             canSleep = false;
 
             // Checks values and updates time based on player input
-            TimeManager time = Alarm.GetComponent(typeof(TimeManager)) as TimeManager;
+            t_TimeManager time = Alarm.GetComponent(typeof(t_TimeManager)) as t_TimeManager;
             time.AnomalyCheck();
             
             // Activates cutscene 
             cutscene.SetActive(true);
+
+            // Hides old tutorial messages and reveals new ones
+            for (int i = 0; i < 4; i++) 
+            {
+                t1_messages[i].SetActive(false);
+                t2_messages[i].SetActive(true);
+            }
 
             // Disables scripts
             ScriptAdjust();

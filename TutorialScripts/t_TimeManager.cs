@@ -4,7 +4,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
 
-public class TimeManager : MonoBehaviour
+public class t_TimeManager : MonoBehaviour
 {
     [Header("Clock")]
     // What the current time is
@@ -39,8 +39,7 @@ public class TimeManager : MonoBehaviour
     // Sets everything to false && 0 
     void Start()
     {
-        // Chooses a new anomaly when the game starts
-        NewAnomaly();
+        
         currentTime = 0;
         isAnomalyFound = false;
         placeFound = false;
@@ -72,6 +71,9 @@ public class TimeManager : MonoBehaviour
 
         // Updates clock text to current time
         UpdateClock();
+
+        // Chooses a new anomaly when the game starts
+        NewAnomaly();
     }
 
    
@@ -84,10 +86,10 @@ public class TimeManager : MonoBehaviour
             currentTime += 1;
 
             // If current time is equal to 8, the player has won
-            if (currentTime == 8)
+            if (currentTime == 1)
             {
-                // Plays win sequence
-                SceneManager.LoadScene(4); 
+                // End tutorial
+                SceneManager.LoadScene(3); 
             }
 
             // Sets clock time to match current time

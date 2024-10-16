@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Computer : MonoBehaviour
+public class Computer : MonoBehaviour, IInteractable
 {
     [Header("Computer Objects")]
     // GUI elements
@@ -85,7 +85,7 @@ public class Computer : MonoBehaviour
     public void ScriptAdjust()
     {
         playerMovement.enabled = !playerMovement.enabled;
-        playerActions.enabled = !playerActions.enabled;
         headbob.enabled = !headbob.enabled;
+        playerActions.enabled = !playerActions.enabled;
     }
 }

@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
 public class PlayerMovement : MonoBehaviour
 {
     [Header("Player")]
@@ -160,3 +159,4 @@ public class PlayerMovement : MonoBehaviour
   
     }
 }
+
